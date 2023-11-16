@@ -1,0 +1,83 @@
+import java.util.Scanner;
+
+public class ReportCard {
+    private String studentName;
+    private int studentClass;
+    private int studentID;
+    private int mathGrade;
+    private int scienceGrade;
+    private int englishGrade;
+    private int computerSciGrade;
+    private int spanishGrade;
+
+    // Constructor
+    public ReportCard(String studentName, int studentClass, int mathGrade, int scienceGrade, int englishGrade, int computerSciGrade, int spanishGrade) {
+        this.studentName = studentName;
+        this.studentClass = studentClass;
+        this.mathGrade = mathGrade;
+        this.scienceGrade = scienceGrade;
+        this.englishGrade = englishGrade;
+        this.computerSciGrade = computerSciGrade;
+        this.spanishGrade = spanishGrade;
+    }
+
+    // Method to calculate the average grade
+    public double calculateAverageGrade() {
+        double gradeAvg = (mathGrade + scienceGrade + englishGrade + computerSciGrade + spanishGrade) / 5.0;
+        if (gradeAvg >= 95):
+            return ("You got an A+:\n" + gradeAvg);
+        elif (gradeAvg >= 90):
+            return ("You got an A:\n" + gradeAvg);
+        elif (gradeAvg >= 80):
+            return ("You got a B:\n" + gradeAvg);
+        elif (gradeAvg >= 70):
+            return ("You got a C:\n" + gradeAvg);
+        elif (gradeAvg >= 60):
+            return ("You got an D:\n" + gradeAvg);
+        elif (gradeAvg < 60):
+        return ("You got a F:\n" + gradeAvg);
+    }
+
+    // Method to display the report card
+    public void displayReportCard() {
+        System.out.println("Student Name: " + studentName);
+        System.out.println("Student Class: " + studentClass);
+        System.out.println("Math Grade: " + mathGrade);
+        System.out.println("Science Grade: " + scienceGrade);
+        System.out.println("English Grade: " + englishGrade);
+        System.out.println("Comp Sci Grade: " + computerSciGrade);
+        System.out.println("Spanish Grade: " + spanishGrade);
+        System.out.println("Average Grade: " + calculateAverageGrade());
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Take user input for student details
+        System.out.print("Enter Student Name: ");
+        String studentName = scanner.nextLine();
+
+        System.out.print("Enter Math Grade: ");
+        int mathGrade = scanner.nextInt();
+
+        System.out.print("Enter Science Grade: ");
+        int scienceGrade = scanner.nextInt();
+
+        System.out.print("Enter English Grade: ");
+        int englishGrade = scanner.nextInt();
+
+        System.out.print("Enter Computer Sci Grade: ");
+        int computerSciGrade = scanner.nextInt();
+
+        System.out.print("Enter Spanish Grade: ");
+        int spanishGrade = scanner.nextInt();
+
+        // Create a ReportCard object with user input
+        ReportCard studentReport = new ReportCard(studentName, mathGrade, scienceGrade, englishGrade, computerSciGrade, spanishGrade);
+
+        // Display the report card
+        studentReport.displayReportCard();
+
+        scanner.close();
+    }
+}

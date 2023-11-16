@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form Validation</title>
+  <style>
+    .error {
+      color: red;
+      font-size: 14px;
+    }
+
+    .valid {
+      border: 1px solid green;
+    }
+
+    .invalid {
+      border: 1px solid red;
+    }
+    
+    
+    
+  </style>
+</head>
+<body>
+
+  <h1>Form Validation</h1>
+
+  <form id="validationForm">
+    <label for="fullName">Full Name:</label>
+    <input type="text" id="fullName" name="fullName">
+    <span id="fullNameError" class="error"></span>
+
+    <br>
+
+    <label for="email">Email Address:</label>
+    <input type="text" id="email" name="email">
+    <span id="emailError" class="error"></span>
+
+    <br>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password">
+    <span id="passwordError" class="error"></span>
+
+    <br>
+
+    <label for="confirmPassword">Confirm Password:</label>
+    <input type="password" id="confirmPassword" name="confirmPassword">
+    <span id="confirmPasswordError" class="error"></span>
+
+    <br>
+
+    <label for="phoneNumber">Phone Number:</label>
+    <input type="text" id="phoneNumber" name="phoneNumber">
+    <span id="phoneNumberError" class="error"></span>
+
+    <br>
+
+    <input type="submit" value="Submit" id="submitButton" disabled>
+  </form>
+
+  <script>
+    const form = document.getElementById('validationForm');
+    const submitButton = document.getElementById('submitButton');
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+      validateForm();
+    });
+
+    form.addEventListener('input', function(event) {
+      validateInput(event.target);
+    });
+
+    function validateForm() {
+      const elements = form.elements;
+      let isValid = true;
+
+      // Validate each form element
+      for (let i = 0; i < elements.length - 1; i++) {
+        if (!validateInput(elements[i])) {
+          isValid = false;
+        }
+      }
+
+      // Submit the form if all fields are valid
+      if (isValid) {
+        alert('Form submitted successfully!');
+        // You can also submit the form to a server using AJAX or other methods
+      }
+    }
+
+    function validateInput(input) {
+      const id = input.id;
+      const value = input.value;
+      const errorElement = document.getElementById(`${id}Error`);
+
+      // Reset error message
+      errorElement.textContent = '';
+
+      // Perform specific validation based on the input field
+      switch (id) {
+        case 'fullName':
+          if (!value) {
+            displayError(errorElement, 'Full Name cannot be empty');
+            return false;
+          } else if (!/^[A-Za-z\s]+$/.test(value)) {
+            displayError(errorElement, 'Full Name should only contain alphabetical characters');
+            return false;
+          }
+          break;
+        case 'email':
+          if (!value) {
+            displayError(errorElement, 'Email Address cannot be empty');
+            return false;
+          } else if (!isValidEmail(value)) {
+            displayError(errorElement, 'Invalid email address');
+            return false;
+          }
+          break;
+        case 'password':
+          if (!value) {
+            displayError(errorElement, 'Password cannot be empty');
+            return false;
+          } else if (!isValidPassword(value)) {
+            displayError(errorElement, 'Invalid password');
+            return false;
+          }
+          break;
+        case 'confirmPassword':
+          const password = document.getElementById('password').value;
+          if (value !== password) {
+            displayError(errorElement, 'Passwords do not match');
+            return false;
+          }
+          break;
+        case 'phoneNumber':
+          if (!value) {
+            displayError(errorElement, 'Phone Number cannot be empty');
+            return false;
+          } else if (!isValidPhoneNumber(value)) {
+            displayError(errorElement, 'Invalid phone number format');
+            return false;
+          }
+          break;
+        default:
+          break;
+      }
+
+      // If the validation passes, apply visual feedback
+      applyVisualFeedback(input, true);
+      return true;
+    }
+
+    function isValidEmail(email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    }
+
+    function isValidPassword(password) {
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      return passwordRegex.test(password);
+    }
+
+    function isValidPhoneNumber(phoneNumber) {
+      const phoneRegex = /^\d{10}$/; // Assuming a 10-digit phone number format
+      return phoneRegex.test(phoneNumber);
+    }
+
+    function displayError(errorElement, message) {
+      errorElement.textContent = message;
+      applyVisualFeedback(errorElement, false);
+    }
+
+    function applyVisualFeedback(element, isValid) {
+      if (isValid) {
+        element.classList.remove('invalid');
+        element.classList.add('valid');
+      } else {
+        element.classList.remove('valid');
+        element.classList.add('invalid');
+      }
+
+      // Enable or disable the submit button based on form validity
+      const isValidForm = Array.from(form.elements).every((element) => {
+        return !element.classList.contains('invalid');
+      });
+      submitButton.disabled = !isValidForm;
+    }
+  </script>
+
+</body>
+</html>
