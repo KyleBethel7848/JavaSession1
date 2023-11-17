@@ -8,6 +8,7 @@
     .error {
       color: red;
       font-size: 14px;
+      max-width: 300px;
     }
 
     .valid {
@@ -17,9 +18,44 @@
     .invalid {
       border: 1px solid red;
     }
-    
-    
-    
+
+    label {
+      display: inline-block;
+      width: 150px;
+      margin-bottom: 10px;
+    }
+
+    input {
+      width: 200px;
+      margin-bottom: 10px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .name-container, .email-container, .password-container, .confirmPassword-container, .phoneNumber-container {
+      display: flex;
+      margin-bottom: 10px;
+    }
+
+    .name-container label,
+    .email-container label,
+    .password-container label,
+    .confirmPassword-container label,
+    .phoneNumber-container label {
+      margin-bottom: 0;
+      margin-right: 10px;
+    }
+
+    .name-container input,
+    .email-container input,
+    .password-container input,
+    .confirmPassword-container input,
+    .phoneNumber-container input {
+      margin-bottom: 0;
+    }
   </style>
 </head>
 <body>
@@ -27,35 +63,35 @@
   <h1>Form Validation</h1>
 
   <form id="validationForm">
-    <label for="fullName">Full Name:</label>
-    <input type="text" id="fullName" name="fullName">
+    <div class="name-container">
+      <label for="fullName">Full Name:</label>
+      <input type="text" id="fullName" name="fullName">
+    </div>
     <span id="fullNameError" class="error"></span>
 
-    <br>
-
-    <label for="email">Email Address:</label>
-    <input type="text" id="email" name="email">
+    <div class="email-container">
+      <label for="email">Email Address:</label>
+      <input type="text" id="email" name="email">
+    </div>
     <span id="emailError" class="error"></span>
 
-    <br>
-
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password">
+    <div class="password-container">
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password">
+    </div>
     <span id="passwordError" class="error"></span>
 
-    <br>
-
-    <label for="confirmPassword">Confirm Password:</label>
-    <input type="password" id="confirmPassword" name="confirmPassword">
+    <div class="confirmPassword-container">
+      <label for="confirmPassword">Confirm Password:</label>
+      <input type="password" id="confirmPassword" name="confirmPassword">
+    </div>
     <span id="confirmPasswordError" class="error"></span>
 
-    <br>
-
-    <label for="phoneNumber">Phone Number:</label>
-    <input type="text" id="phoneNumber" name="phoneNumber">
+    <div class="phoneNumber-container">
+      <label for="phoneNumber">Phone Number:</label>
+      <input type="text" id="phoneNumber" name="phoneNumber">
+    </div>
     <span id="phoneNumberError" class="error"></span>
-
-    <br>
 
     <input type="submit" value="Submit" id="submitButton" disabled>
   </form>
@@ -173,13 +209,16 @@
       applyVisualFeedback(errorElement, false);
     }
 
-    function applyVisualFeedback(element, isValid) {
+    function applyVisualFeedback(input, isValid) {
+      const errorElement = document.getElementById(`${input.id}Error`);
+
       if (isValid) {
-        element.classList.remove('invalid');
-        element.classList.add('valid');
+        input.classList.remove('invalid');
+        input.classList.add('valid');
+        errorElement.textContent = ''; // Clear the error message
       } else {
-        element.classList.remove('valid');
-        element.classList.add('invalid');
+        input.classList.remove('valid');
+        input.classList.add('invalid');
       }
 
       // Enable or disable the submit button based on form validity
