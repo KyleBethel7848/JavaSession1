@@ -1,3 +1,4 @@
+// JS for user interactivity
 document.addEventListener("DOMContentLoaded", () => {
     // Load tasks from local storage
     loadTasks();
